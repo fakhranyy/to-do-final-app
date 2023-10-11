@@ -1,34 +1,52 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LazyModuleLoader } from '@nestjs/core'
+import { UsersModule } from './users.module';
+import { UsersService } from './users.service';
+import { ApiTags } from '@nestjs/swagger';
+
 
 @Controller('users')
+@ApiTags('users Api')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private lazyModuleLoader: LazyModuleLoader)
+    {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.create(createUserDto);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    // return this.usersService.update(+id, updateUserDto);
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.update(id , updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: number) {
+    // return this.usersService.remove(+id);
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    service.remove(id);
   }
 }
