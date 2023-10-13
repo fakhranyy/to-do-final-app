@@ -10,8 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('users')
 @ApiTags('users Api')
 export class UsersController {
-  constructor(private lazyModuleLoader: LazyModuleLoader)
-    {}
+  constructor(private lazyModuleLoader: LazyModuleLoader){}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
@@ -27,11 +26,11 @@ export class UsersController {
     return service.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: number) {
+  @Get(':username')
+  async findOne(@Param('username') username: string) {
     const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
     const service = moduleRef.get(UsersService);
-    return service.findOne(id);
+    return service.findOne(username);
   }
 
   @Patch(':id')

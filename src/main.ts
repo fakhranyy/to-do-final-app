@@ -13,7 +13,7 @@ async function bootstrap() {
   .setTitle('To-Do App')
   .setDescription('To-do Api description')
   .setVersion('1.0')
-  .addTag('All To-Do Apis')
+  // .addTag('All To-Do Apis')
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);  

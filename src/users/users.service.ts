@@ -19,8 +19,8 @@ export class UsersService {
     return this.repo.find();
   }
 
-  findOne(id: number) {
-    return this.repo.findOneBy({id});
+  async findOne(username: string): Promise<User> {
+    return this.repo.findOneBy({username});
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
