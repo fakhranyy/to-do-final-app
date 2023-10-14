@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('users')
-@ApiTags('users Api')
+@ApiTags('Users api')
 export class UsersController {
   constructor(private lazyModuleLoader: LazyModuleLoader){}
 

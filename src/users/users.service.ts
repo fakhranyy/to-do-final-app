@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { encodePassword } from 'src/auth/encrypt/encrypt';
 
 
 @Injectable()
@@ -11,8 +12,10 @@ export class UsersService {
   constructor(@InjectRepository(User) private readonly repo: Repository<User>,
   ){}
   create(createUserDto: CreateUserDto) {
-    // const 
-    return this.repo.save(createUserDto);
+    const password = encodePassword(createUserDto.password);
+    console.log(password);
+    const hashedUser = {...createUserDto , password}
+    return this.repo.save(hashedUser);
   }
 
   findAll() {

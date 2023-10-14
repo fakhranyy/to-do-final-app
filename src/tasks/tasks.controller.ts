@@ -8,7 +8,7 @@ import { ApiAcceptedResponse, ApiTags, ApiResponse } from '@nestjs/swagger';
 
 
 @Controller('tasks')
-@ApiTags('Tasks Api')
+@ApiTags('Tasks api')
 export class TasksController {
   constructor(private readonly lazyModuleLoader: LazyModuleLoader) {}
 
