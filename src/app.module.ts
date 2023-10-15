@@ -7,10 +7,10 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(), // should import it to let me use config vars in database module
     UsersModule,
     TasksModule,
     DatabaseModule,
-    ConfigModule.forRoot(),
     AuthModule,
   ],
   controllers: [],

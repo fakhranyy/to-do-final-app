@@ -12,18 +12,24 @@ export class AuthService {
     ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
+    // first find the user
     const user = await this.usersService.findOne(username);
+    // then, check if the user is exist
     if (user) {
+      // then, compare the passwords (the user password $ the password that i recived as a param from req)
+      //  check if they were the same by the method comparePasswords
       const matched = comparePasswords(password , user.password)
+       // if they're matched (passwords equal each other) do ->
       if(matched){
         console.log('User Validation is success!');
         return user;
+       // if they're not matched (passwords equal each other) do ->
       } else {
         console.log('Password do not match !');
         return null;
       }
     }
-    return user;
+    // return user;
   }
     
   async login(user: any){

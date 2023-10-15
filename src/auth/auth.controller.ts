@@ -32,12 +32,11 @@ export class AuthController {
     return service.login(req.user);
   }
 
-  // @UseGuards(JwtAuthGuard)
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard) // check the 
   @ApiResponse({description: 'Getting all authenticated users'})
   @ApiBadRequestResponse({description: 'Cannot getting all authenticated users'}) 
   @Get('protected')
   getProfile(@Request() req) {
-    return req.user
+    return req.user;
   }
 }

@@ -5,14 +5,12 @@ import { LazyModuleLoader } from '@nestjs/core';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
-
-
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+ const app = await NestFactory.create(AppModule);
  const lazyModuleLoader = app.get(LazyModuleLoader);
  
- app.use(
+ // init sessions  
+ app.use(  
   session({
     secret: 'keyboard cat', // should put it in env var
     resave: false,
@@ -20,10 +18,12 @@ async function bootstrap() {
     cookie: { maxAge: 3600000 },
   }),
 );
+
+ // init passport & passport session 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+  // swagger config
   const config = new DocumentBuilder()
   .setTitle('To-Do App')
   .setDescription('To-do Api description')
@@ -32,6 +32,7 @@ app.use(passport.session());
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);  
+
   await app.listen(3000);
 }
 bootstrap();

@@ -1,10 +1,11 @@
 import * as bcrypt from 'bcrypt';
 
 export  function encodePassword(plainPassword: string){
-    const SALT = bcrypt.genSaltSync(); // step no 1 generate salt code
-    return bcrypt.hashSync(plainPassword,SALT); // step no 2 use salt to hashing password
+    const SALT = bcrypt.genSaltSync(); //  generate salt code
+    return bcrypt.hashSync(plainPassword,SALT); // use salt to hashing password
 }
 
-export function comparePasswords(plainPassword: string, hash: string){
+export function comparePasswords(plainPassword: string, hash: string){ 
+    // compare the hashingPassword with plainPassword to make sure they're the same password
     return bcrypt.compareSync(plainPassword, hash)
 }
