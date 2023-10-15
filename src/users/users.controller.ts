@@ -33,6 +33,13 @@ export class UsersController {
     return service.findOne(username);
   }
 
+  @Get(':usernameTasks')
+  async userTasks(@Param('usernameTasks') username: string ){
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.findOneAndTasks(username);
+  }
+
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     // return this.usersService.update(+id, updateUserDto);

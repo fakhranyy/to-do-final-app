@@ -9,7 +9,7 @@ export class Task {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: false})
   is_Done: boolean;
 
   @ManyToOne(() => User, (user) => user.tasks)

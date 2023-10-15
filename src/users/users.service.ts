@@ -14,17 +14,21 @@ export class UsersService {
   create(createUserDto: CreateUserDto) {
     const password = encodePassword(createUserDto.password);
     console.log(password);
-    const hashedUser = {...createUserDto , password}
-    return this.repo.save(hashedUser);
+    return this.repo.save({...createUserDto , password});
   }
-
+  
   findAll() {
     return this.repo.find();
   }
 
   async findOne(username: string): Promise<User> {
-    return this.repo.findOneBy({username});
+    return this.repo.findOneBy({ username });
   }
+
+  async findOneAndTasks(username: string): Promise<User[]>{
+    return this.repo.find({where: {username} , relations: ['tasks']})
+  }
+
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const userToUpdate = await this.repo.findOneBy({id}); 
