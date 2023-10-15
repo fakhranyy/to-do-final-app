@@ -12,9 +12,14 @@ import {
   export class AuthGuard implements CanActivate {
     constructor(private jwtService: JwtService) {}
   
-    async canActivate(context: ExecutionContext): Promise<boolean> {
-      const request = context.switchToHttp().getRequest();
-      const token = this.extractTokenFromHeader(request);
+      // @param context
+      // Current execution context. Provides access to details about the current request pipeline. 
+
+      async canActivate(context: ExecutionContext): Promise<boolean> {
+        const request = context.switchToHttp().getRequest();
+        const token = this.extractTokenFromHeader(request);
+        // @returns -> toekn 
+        // Value indicating whether or not the current request is allowed to proceed.
       if (!token) {
         throw new UnauthorizedException('test one');
       }

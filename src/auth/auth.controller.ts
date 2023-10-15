@@ -21,7 +21,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 export class AuthController {
   constructor(private lazyModuleLoader: LazyModuleLoader){}
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard) // // check some auth process
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @ApiResponse({description: 'The user is authenticated'})
@@ -32,7 +32,7 @@ export class AuthController {
     return service.login(req.user);
   }
 
-  @UseGuards(AuthGuard) // check the 
+  @UseGuards(AuthGuard) // check some auth process
   @ApiResponse({description: 'Getting all authenticated users'})
   @ApiBadRequestResponse({description: 'Cannot getting all authenticated users'}) 
   @Get('protected')
