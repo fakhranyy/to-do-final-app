@@ -5,6 +5,7 @@ import { LazyModuleLoader } from '@nestjs/core'
 import { UsersModule } from './users.module';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from './entities/user.entity';
 
 
 @Controller('users')
@@ -13,10 +14,12 @@ export class UsersController {
   constructor(private lazyModuleLoader: LazyModuleLoader){}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  // async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body('name') name: string):Promise<User> {
     const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
     const service = moduleRef.get(UsersService);
-    return service.create(createUserDto);
+    // return service.create(createUserDto);
+    return service.create(name);
   }
 
   @Get()
@@ -31,13 +34,6 @@ export class UsersController {
     const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
     const service = moduleRef.get(UsersService);
     return service.findOne(username);
-  }
-
-  @Get(':usernameTasks')
-  async userTasks(@Param('usernameTasks') username: string ){
-    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
-    const service = moduleRef.get(UsersService);
-    return service.findOneAndTasks(username);
   }
 
   @Patch(':id')

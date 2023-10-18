@@ -23,3 +23,21 @@ export class User {
   tasks: Task[]
 
 }
+
+// @Entity()
+// export class User {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column({ unique: true,nullable: true })
+//   username: string;
+  
+//   @Column({nullable: true})
+//   name: string;
+
+//   @Column({nullable: true})
+//   password: string;
+
+//   @OneToMany(() => Task, task => task.user)
+//   tasks: Task[];
+// }

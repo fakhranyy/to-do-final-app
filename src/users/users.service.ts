@@ -11,10 +11,16 @@ import { encodePassword } from 'src/auth/encrypt/encrypt';
 export class UsersService {
   constructor(@InjectRepository(User) private readonly repo: Repository<User>,
   ){}
-  create(createUserDto: CreateUserDto) {
-    const password = encodePassword(createUserDto.password);
-    console.log(password);
-    return this.repo.save({...createUserDto , password});
+  // create(createUserDto: CreateUserDto) {
+  //   const password = encodePassword(createUserDto.password);
+  //   console.log(password);
+  //   return this.repo.save({...createUserDto , password});
+  // }
+
+  async create(name: string): Promise<User> {
+    const user = new User();
+    user.name = name;
+    return this.repo.save(user);
   }
   
   findAll() {
@@ -24,11 +30,6 @@ export class UsersService {
   async findOne(username: string): Promise<User> {
     return this.repo.findOneBy({ username });
   }
-
-  async findOneAndTasks(username: string): Promise<User[]>{
-    return this.repo.find({where: {username} , relations: ['tasks']})
-  }
-
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const userToUpdate = await this.repo.findOneBy({id}); 
