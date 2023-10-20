@@ -22,6 +22,11 @@ export class UsersService {
     user.name = name;
     return this.repo.save(user);
   }
+
+  async getUserTasks(id: number): Promise<User> {
+    return await this.repo.findOne(id, { relations: ['tasks'] });
+  }
+
   
   findAll() {
     return this.repo.find();

@@ -37,7 +37,7 @@ export class TasksController {
     // return this.tasksService.create(createTaskDto);
     const moduleRef = await this.lazyModuleLoader.load(() => TasksModule);
     const service = moduleRef.get(TasksService);
-    return service.create(createTaskDto);
+    // return service.create(createTaskDto);
   }
 
   @Get()
