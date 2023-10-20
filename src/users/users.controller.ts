@@ -15,11 +15,11 @@ export class UsersController {
 
   @Post()
   // async create(@Body() createUserDto: CreateUserDto) {
-  async create(@Body('name') name: string):Promise<User> {
+  async create(@Body() user : CreateUserDto):Promise<User> {
     const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
     const service = moduleRef.get(UsersService);
     // return service.create(createUserDto);
-    return service.create(name);
+    return await service.createUser(user);
   }
 
   @Get()

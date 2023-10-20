@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { encodePassword } from 'src/auth/encrypt/encrypt';
+import { BadRequestException } from '@nestjs/common/exceptions';
 
 
 @Injectable()
@@ -17,14 +17,39 @@ export class UsersService {
   //   return this.repo.save({...createUserDto , password});
   // }
 
-  async create(name: string): Promise<User> {
+  async createUser(newUser : CreateUserDto): Promise<User> {
+    const usernameAlreadyExists = await this.repo.findOne({
+      where:{
+        username : newUser.username
+      }
+    });
+    if(usernameAlreadyExists){
+      throw new BadRequestException('Username already found in database!');
+    }
+    const emailAlreadyExists = await this.repo.findOne({
+      where:{
+        email : newUser.email
+      }
+    });
+    if(emailAlreadyExists){
+      throw new BadRequestException('Email already found in database!');
+    }
     const user = new User();
-    user.name = name;
-    return this.repo.save(user);
+    user.email = newUser.email;
+    user.name = newUser.name;
+    user.password = newUser.password;
+    user.username = newUser.username;
+    return await this.repo.save(user);
   }
 
   async getUserTasks(id: number): Promise<User> {
-    return await this.repo.findOne(id, { relations: ['tasks'] });
+    return await this.repo.findOne({
+      where:{
+        id
+      },relations : {
+        tasks:true
+      }
+    });
   }
 
   
