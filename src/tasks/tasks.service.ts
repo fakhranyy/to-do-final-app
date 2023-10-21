@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,11 +11,22 @@ export class TasksService {
   constructor(@InjectRepository(Task) private readonly taskRepo: Repository<Task>,
               @InjectRepository(User) private readonly userRepo: Repository<User>
   ){} 
-// // 
-//   async create(id: number , createTaskDto: CreateTaskDto) {
-//     await this.taskRepo.create({userId: id})
-//   }
 
+  // async create(id: number , createTaskDto: CreateTaskDto) {
+  //   await this.taskRepo.create({userId: id})
+  // }
+
+  async create(newTask: CreateTaskDto):Promise<Task>{
+    const taskAlreadyExists = await this.taskRepo.findOne({where: {id: newTask.id}})
+    if(taskAlreadyExists){
+      throw new BadRequestException('The task is already exist');
+    }
+    const task = new Task();
+    task.id = newTask.id;
+    task.title = newTask.title;
+    task.userId = newTask.user_id;
+    return this.taskRepo.save(task);
+  }
 
 
    findAll() {

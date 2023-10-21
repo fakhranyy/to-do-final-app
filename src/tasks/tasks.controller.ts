@@ -33,11 +33,11 @@ export class TasksController {
 
 
   @Post()
-  async create(@Body() createTaskDto: CreateTaskDto) {
+  async create(@Body() task: CreateTaskDto) {
     // return this.tasksService.create(createTaskDto);
     const moduleRef = await this.lazyModuleLoader.load(() => TasksModule);
     const service = moduleRef.get(TasksService);
-    // return service.create(createTaskDto);
+    return service.create(task);
   }
 
   @Get()

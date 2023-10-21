@@ -3,7 +3,7 @@ import { IsBoolean, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateTaskDto {
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   id: number;
   
   @ApiProperty({
@@ -12,15 +12,15 @@ export class CreateTaskDto {
   })
   @IsNotEmpty()
   @IsString()
-  name: string;
+  title: string;
   
-  @ApiProperty({
-    description: 'Boolean value describe what if it finshed or not',
-    example: 'It will be true or false'
-})
-  @IsBoolean()
-  @IsNotEmpty()
-  is_Done: boolean;
+//   @ApiProperty({
+//     description: 'Boolean value describe what if it finshed or not',
+//     example: 'It will be true or false'
+// })
+  // @IsBoolean()
+  // @IsNotEmpty()
+  // is_Done: boolean;
 
   @IsNumber()
   user_id: number;

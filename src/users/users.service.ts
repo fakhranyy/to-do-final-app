@@ -11,6 +11,7 @@ import { BadRequestException } from '@nestjs/common/exceptions';
 export class UsersService {
   constructor(@InjectRepository(User) private readonly repo: Repository<User>,
   ){}
+  
   // create(createUserDto: CreateUserDto) {
   //   const password = encodePassword(createUserDto.password);
   //   console.log(password);

@@ -22,6 +22,13 @@ export class UsersController {
     return await service.createUser(user);
   }
 
+  @Get(':id')
+  async usersTasks(id: number){
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    const service = moduleRef.get(UsersService);
+    return service.getUserTasks(id);
+  }
+
   @Get()
   async findAll() {
     const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
